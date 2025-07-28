@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>{% block title%}首页{% endblock %}</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <link href="/static/img/logo.svg" rel="icon">
+    <link href="/static/img/logo.svg" rel="apple-touch-icon">
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/static/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="/static/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="/static/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="/static/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="#" class="logo d-flex align-items-center">
+            <span class="d-none d-lg-block" style="font-size: 22px">健康睡眠数据系统</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+            <li class="nav-item dropdown pe-3">
+
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <img src="/media/{{ userInfo.avatar }}" alt="Profile" class="rounded-circle">
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ userInfo.username }}</span>
+                </a><!-- End Profile Iamge Icon -->
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header">
+                        <h6>{{ userInfo.username }}</h6>
+                        <span>{{ userInfo.textarea }}</span>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        {# 修改个人信息#}
+                        <a class="dropdown-item d-flex align-items-center" href="{% url 'changeSelfInfo' %}">
+                            <i class="bi bi-person"></i>
+                            <span>个人信息</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{% url 'logOut' %}">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>退出登录</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+        </ul>
+    </nav>
+</header>
+{% block sidebar %}
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">
+                <i class="bi bi-grid"></i>
+                <span>首页</span>
+            </a>
+        </li>
+        <li class="nav-heading">个人信息</li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'changeSelfInfo' %}">
+                <i class="bi bi-menu-button-wide"></i><span>个人信息</span></i>
+            </a>
+        </li><!-- End Components Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'changePassword' %}">
+                <i class="bi bi-journal-text"></i><span>修改密码</span>
+            </a>
+        </li>
+        <li class="nav-heading">数据表格</li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'tableData' %}">
+                <i class="bi bi-layout-text-window-reverse"></i><span>数据操作</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'tableData2' %}">
+                <i class="bi bi-layout-text-window-reverse"></i><span>用户数据</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'comment' %}">
+                <i class="bi bi-layout-text-window-reverse"></i><span>评论数据</span>
+            </a>
+        </li>
+        <li class="nav-heading">数据可视化</li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'cityChar' %}">
+                <i class="bi bi-bar-chart"></i><span>BMI和性别分析</span></i>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'rateChar' %}">
+                <i class="bi bi-gem"></i><span>压力水平对比</span>
+            </a>
+        </li><!-- End Icons Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'priceChar' %}">
+                <i class="bi bi-person"></i>
+                <span>步数和睡眠时长分析</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'commentsChar' %}">
+                <i class="bi bi-question-circle"></i>
+                <span>评论分析</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'heartChar' %}">
+                <i class="bi bi-question-circle"></i>
+                <span>心率分布</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'bloodChar' %}">
+                <i class="bi bi-question-circle"></i>
+                <span>血压分析</span>
+            </a>
+        </li>
+
+        <li class="nav-heading">后台管理</li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="http://127.0.0.1:8000/admin/">
+                <i class="bi bi-envelope"></i>
+                <span>后台数据管理</span>
+            </a>
+        </li>
+    </ul>
+
+</aside>
+{% endblock sidebar %}
+
+<main id="main" class="main">
+
+    {% block content %}
+    <div class="pagetitle" style="display: flex;align-items: center">
+        <div style="margin-right: auto">
+            <h1>首页</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">首页</a></li>
+                    <li class="breadcrumb-item active">首页</li>
+                </ol>
+            </nav>
+        </div>
+        <h5 style="font-weight: normal">
+            {{ nowTime.year }} - {{ nowTime.mon }} - {{ nowTime.day }}
+        </h5>
+    </div>
+    <section class="section dashboard">
+        <div class="row">
+
+            <!-- Left side columns -->
+            <div class="col-lg-12">
+                <div class="row">
+
+                    <!-- Sales Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card sales-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">BMI正常的个数</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-stars"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ a5Len }}个</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- End Sales Card -->
+
+                    <!-- Revenue Card -->
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+
+
+                            <div class="card-body">
+                                <h5 class="card-title">年龄最大的职业</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-emoji-laughing"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ commentsLenTitle }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- End Revenue Card -->
+
+                    <!-- Customers Card -->
+                    <div class="col-xxl-4 col-xl-12">
+
+                        <div class="card info-card customers-card">
+
+
+                            <div class="card-body">
+                                <h5 class="card-title">睡眠障碍最多的状态</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-sun"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ provienceDicSort }}</h6>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div><!-- End Customers Card -->
+
+
+
+                    <!--            数据分页展示-->
+
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+
+                            <div class="card-body">
+                                <h5 class="card-title">前十笔记 <span> </span></h5>
+
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:100px" scope="col">笔记ID</th>
+                                        <th scope="col" style="width: 100px">性别</th>
+                                        <th style="width:100px" scope="col">年龄</th>
+                                        <th style="width:100px" scope="col">职业</th>
+                                        <th style="width:100px" scope="col">睡眠时长</th>
+                                        <th style="width:100px" scope="col">睡眠质量</th>
+                                        <th style="width:100px" scope="col">身体活动</th>
+                                        <th style="width:100px" scope="col">压力水平</th>
+                                        <th style="width:100px" scope="col">BMI</th>
+                                        <th style="width:100px" scope="col">血压</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for i in scoreTop10Data %}
+                                    <tr>
+                                        <th scope="row"><a href="#">#{{ i.id }}</a></th>
+                                        <td>{{ i.sex }}</td>
+                                        <td><a href="#" class="text-primary">{{ i.age }}</a></td>
+                                        <td>{{ i.career }}</td>
+                                        <td><span class="badge bg-success">{{ i.sleep_duration }}</span></td>
+                                        <td><span class="text-danger">{{ i.sleep_quality }}</span></td>
+                                        <td><span class="text-primary">{{ i.physical_activity_level }}</span></td>
+                                        <td><span class="text-primary">{{ i.pressure }}</span></td>
+                                        <td><span class="text-primary">{{ i.bmi }}</span></td>
+                                        <td><span class="text-primary">{{ i.blood_pressure }}</span></td>
+
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+
+
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div><!-- End Recent Sales -->
+
+                    <!--            上面是数据分页-->
+
+                    <!-- Top Selling -->
+                </div>
+            </div><!-- End Left side columns -->
+
+
+        </div>
+    </section>
+    {% endblock %}
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<!--  <footer id="footer" class="footer">-->
+<!--    <div class="copyright">-->
+<!--      Copyright &copy; 2023.<a target="_blank" href="{% url 'home' %}">健康睡眠数据系统</a>-->
+<!--    </div>-->
+<!--    <div class="credits">-->
+<!--    </div>-->
+<!--  </footer>-->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+<script src="/static/echarts.min.js"></script>
+<script src="/static/china.js"></script>
+{% block echarts %}
+<script>
+      var myChart = echarts.init(document.getElementById('mains'));
+        var mydata = {{ geoData | safe }}
+        var options= {
+                    tooltip: {
+                        triggerOn: "mousemove",
+                        padding:8,
+                        borderWidth:1,
+                        borderColor:'#409eff',
+                        backgroundColor:'rgba(255,255,255,0.2)',
+                        textStyle:{
+                            color:'#000',
+                            fontSize:12
+                        },
+                        formatter: function(e, t, n) {
+                            let data = e.data;
+                            return data ? '城市：' + data.name + '\t景点数：' + data.value : '暂未拥有数据'
+                        }
+                    },
+                    visualMap: {
+                        show:true,
+                        left: 26,
+                        bottom: 40,
+                        showLabel:true,
+                        pieces: [
+                            {
+                                {#gte大于等于500#}
+                                gte: 2000,                
+                                label: ">= 2000",
+                                color: "#ff0000"
+                            },
+                            {
+                                gte:1500,
+                                lt: 2000,
+                                label: "1500 - 2000",
+                                color: "#ffc0cb"
+                            },
+                            {
+                                gte:500,
+                                lt: 1500,
+                                label: "500 - 1500",
+                                color: "#badc58"
+                            },
+                            {
+                                gte: 100,
+                                lt: 500,
+                                label: "100 - 500 ",
+                                color: "#ffbe76"
+                            },
+                            {
+                                gte: 50,
+                                lt:100,
+                                label: "50 - 100",
+                                color: "#f6e58d"
+                            },
+                            {
+                                gte: 10,
+                                lt: 50,
+                                label: "50 - 100",
+                                color: "#7ed6df"
+                            },
+                            {
+                                lt:10,
+                                label:'<10',
+                                color: "orange"
+                            }
+                        ]
+                    },
+                    geo: {
+                        map: "china",
+                        roam: true,
+                        scaleLimit: {
+                            min: 1,
+                            max: 2
+                        },
+                        zoom: 1,
+                        top: 10,
+                        layoutSize: "100%", //保持地图宽高比
+                        label: {
+                            normal: {
+                                show:true,
+                                fontSize: "14",
+                                color: "#fff"
+                            },
+                            emphasis: {
+								show: false,
+								textStyle: {
+									color: "#F3F3F3"
+								}
+							}
+                        },
+                        itemStyle: {
+                            normal: {
+                                borderColor: "rgba(0, 0, 0, 0.4)",
+                                areaColor: '#008c8c',
+                            },
+                            emphasis: {
+                                areaColor: "orange",
+                                shadowOffsetX: 0,
+                                shadowOffsetY: 0,
+                                borderWidth: 0
+                            }
+                        }
+                    },
+                    series: [
+                        {
+                            name: "成果预览",
+                            type: "map",
+                            geoIndex: 0,
+                            data: mydata
+                        }
+                    ]
+            }
+        myChart.setOption(options);
+
+</script>
+<script>
+        var chartDom = document.getElementById('mainsTwo');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        // This example requires ECharts v5.5.0 or later
+option = {
+  title:{text:'用户创建时间饼状图',
+  left:'left'
+  
+     },
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    top: '5%',
+    left: 'center'
+  },
+  series: [
+    {
+      name: '用户创建时间占比',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      center: ['50%', '70%'],
+      // adjust the start and end angle
+      startAngle: 180,
+      endAngle: 360,
+      data: {{ userBarCharData |safe }}
+    }
+  ]
+};
+
+        option && myChart.setOption(option);
+
+
+</script>
+{% endblock %}
+<script src="/static/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/vendor/chart.js/chart.min.js"></script>
+<script src="/static/vendor/echarts/echarts.min.js"></script>
+<script src="/static/vendor/quill/quill.min.js"></script>
+<script src="/static/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="/static/vendor/tinymce/tinymce.min.js"></script>
+<script src="/static/vendor/php-email-form/validate.js"></script>
+<script src="/static/js/main.js"></script>
+</body>
+
+</html>

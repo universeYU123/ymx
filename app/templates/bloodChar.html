@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+{% block  title%}
+血压分析
+{% endblock %}
+
+{% block sidebar%}
+    <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'home' %}">
+                <i class="bi bi-grid"></i>
+                <span>首页</span>
+            </a>
+        </li>
+        <li class="nav-heading">个人信息</li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'changeSelfInfo' %}">
+                <i class="bi bi-menu-button-wide"></i><span>个人信息</span></i>
+            </a>
+        </li><!-- End Components Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'changePassword' %}">
+                <i class="bi bi-journal-text"></i><span>修改密码</span>
+            </a>
+        </li>
+        <li class="nav-heading">数据表格</li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'tableData' %}">
+                <i class="bi bi-layout-text-window-reverse"></i><span>数据操作</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'tableData2' %}">
+                <i class="bi bi-layout-text-window-reverse"></i><span>用户数据</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'comment' %}">
+                <i class="bi bi-layout-text-window-reverse"></i><span>评论数据</span>
+            </a>
+        </li>
+        <li class="nav-heading">数据可视化</li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'cityChar' %}">
+                <i class="bi bi-bar-chart"></i><span>BMI和性别分析</span></i>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'rateChar' %}">
+                <i class="bi bi-gem"></i><span>压力水平对比</span>
+            </a>
+        </li><!-- End Icons Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'priceChar' %}">
+                <i class="bi bi-person"></i>
+                <span>步数和睡眠时长分析</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'commentsChar' %}">
+                <i class="bi bi-question-circle"></i>
+                <span>评论分析</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'heartChar' %}">
+                <i class="bi bi-question-circle"></i>
+                <span>心率分布</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'bloodChar' %}">
+                <i class="bi bi-question-circle"></i>
+                <span>血压分析</span>
+            </a>
+        </li>
+        <li class="nav-heading">后台管理</li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="http://127.0.0.1:8000/admin/">
+                <i class="bi bi-envelope"></i>
+                <span>后台数据管理</span>
+            </a>
+        </li>
+    </ul>
+
+  </aside>
+
+{% endblock %}
+
+
+{% block content %}
+      <div class="pagetitle" style="display: flex;align-items: center">
+      <div style="margin-right: auto">
+          <h1>血压分析</h1>
+        <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">数据可视化</a></li>
+          <li class="breadcrumb-item active">血压分析</li>
+        </ol>
+      </nav>
+      </div>
+        <h5 style="font-weight: normal">
+            {{ nowTime.year }} - {{ nowTime.mon }} - {{ nowTime.day }}
+        </h5>
+    </div>
+
+
+      <section class="section dashboard">
+              <div class="row">
+                <div class="col-lg-6">
+
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">高压分析</h5>
+                        <div id="mains" style="width:100%;height: 450px"></div>
+
+
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-lg-6">
+
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">低压分析</h5>
+                        <div id="mainsTwo" style="width:100%;height: 450px"></div>
+
+
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </section>
+{% endblock %}
+{% block echarts%}
+    <script>
+        var chartDom = document.getElementById('mains');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+          xAxis: {
+            type: 'category',
+            data: {{ xData | safe }}
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+            label: {
+                    show: true,
+                  },
+              data: {{ yData | safe }},
+              type: 'bar'
+            }
+          ]
+        };
+
+        option && myChart.setOption(option);
+    </script>
+    <script>
+            var chartDom = document.getElementById('mainsTwo');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+          xAxis: {
+            type: 'category',
+            data: {{ xData2 | safe }}
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+            label: {
+                    show: true,
+                  },
+              data: {{ yData2 | safe }},
+              type: 'bar'
+            }
+          ]
+        };
+
+        option && myChart.setOption(option);
+    </script>
+{% endblock %}
